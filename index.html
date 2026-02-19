@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aholini Joylashtirish</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0f1e;
+    --surface: #111827;
+    --surface2: #1a2237;
+    --border: #1e2d4a;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --green: #10b981;
+    --yellow: #f59e0b;
+    --red: #ef4444;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grid background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .glow-orb {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124,58,237,0.12) 0%, transparent 70%);
+    top: -200px;
+    right: -200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-orb2 {
+    position: fixed;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+    bottom: -100px;
+    left: -100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 28px 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(10px);
+  }
+
+  .logo-badge {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+  }
+
+  header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  header span {
+    margin-left: auto;
+    font-size: 0.75rem;
+    color: var(--accent);
+    background: rgba(0,212,255,0.08);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  .main {
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 24px;
+    padding: 32px 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* FORM PANEL */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+  }
+
+  .panel-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .panel-title::before {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 18px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2));
+    border-radius: 2px;
+  }
+
+  .field-group {
+    margin-bottom: 16px;
+  }
+
+  label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 7px;
+  }
+
+  input, select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    padding: 11px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    appearance: none;
+  }
+
+  input:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+  }
+
+  select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2364748b' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 36px;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    margin-top: 24px;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), #0099cc);
+    color: #0a0f1e;
+    border: none;
+    border-radius: 10px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
+    box-shadow: 0 4px 20px rgba(0,212,255,0.25);
+  }
+
+  .submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 30px rgba(0,212,255,0.35);
+  }
+
+  .submit-btn:active { transform: translateY(0); }
+
+  /* RIGHT PANEL */
+  .right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* RESULT REGION CARDS */
+  .regions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .region-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    cursor: default;
+  }
+
+  .region-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--border);
+    transition: background 0.3s;
+  }
+
+  .region-card.best {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px rgba(0,212,255,0.12);
+    transform: translateY(-2px);
+  }
+
+  .region-card.best::before {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+
+  .region-card.eligible::before {
+    background: var(--green);
+  }
+
+  .region-card.ineligible {
+    opacity: 0.5;
+  }
+
+  .region-card.ineligible::before {
+    background: var(--red);
+  }
+
+  .region-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .region-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .region-badge {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .badge-best { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.25); }
+  .badge-ok { background: rgba(16,185,129,0.1); color: var(--green); border: 1px solid rgba(16,185,129,0.2); }
+  .badge-no { background: rgba(239,68,68,0.08); color: var(--red); border: 1px solid rgba(239,68,68,0.15); }
+
+  .region-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  .score-bar-wrap {
+    margin-bottom: 12px;
+  }
+
+  .score-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+
+  .score-val {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  .score-bar {
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .score-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: var(--accent);
+    width: 0%;
+    transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .region-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    margin-top: 12px;
+  }
+
+  .stat {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 8px 6px;
+    text-align: center;
+  }
+
+  .stat-val {
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: 'Syne', sans-serif;
+    color: var(--accent);
+  }
+
+  .stat-label {
+    font-size: 0.6rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+  }
+
+  /* FACTORS PANEL */
+  .factors-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .factors-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .factor-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .factor-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .factor-info { flex: 1; }
+
+  .factor-name {
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .factor-points {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  .factor-bar {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .factor-fill {
+    height: 100%;
+    border-radius: 2px;
+    width: 0%;
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* CITIZEN CARD */
+  .citizen-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .citizen-info h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .citizen-meta {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  .total-score {
+    margin-left: auto;
+    text-align: center;
+  }
+
+  .total-score-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .total-score-label {
+    font-size: 0.65rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 3px;
+  }
+
+  /* EMPTY STATE */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+
+  .empty-state h3 {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text);
+    opacity: 0.5;
+  }
+
+  .empty-state p {
+    font-size: 0.83rem;
+    opacity: 0.6;
+    max-width: 260px;
+  }
+
+  /* WARNINGS */
+  .warning-box {
+    background: rgba(245,158,11,0.06);
+    border: 1px solid rgba(245,158,11,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 0.82rem;
+    color: var(--yellow);
+    margin-top: 12px;
+    display: none;
+  }
+
+  .warning-box.show { display: block; }
+
+  /* ANIMATE IN */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in { animation: fadeUp 0.5s ease both; }
+  .delay-1 { animation-delay: 0.05s; }
+  .delay-2 { animation-delay: 0.1s; }
+  .delay-3 { animation-delay: 0.15s; }
+  .delay-4 { animation-delay: 0.2s; }
+
+  @media (max-width: 1100px) {
+    .main { grid-template-columns: 1fr; padding: 24px; }
+    .regions-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .regions-grid { grid-template-columns: 1fr; }
+    header { padding: 20px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="glow-orb"></div>
+<div class="glow-orb2"></div>
+
+<header>
+  <div class="logo-badge">🏙️</div>
+  <h1>Smart Placement System</h1>
+  <span>v2.0 PROFESSIONAL</span>
+</header>
+
+<div class="main">
+
+  <!-- FORM -->
+  <div class="panel">
+    <div class="panel-title">Fuqaro Ma'lumotlari</div>
+
+    <form id="form">
+      <div class="field-group">
+        <label>Ism Familiya</label>
+        <input type="text" id="name" placeholder="Masalan: Alibek Yusupov" required>
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label>Yosh</label>
+          <input type="number" id="age" placeholder="30" min="1" max="120" required>
+        </div>
+        <div class="field-group">
+          <label>Oila a'zolari</label>
+          <input type="number" id="family" placeholder="4" min="1" max="20" required>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Oylik daromad (so'm)</label>
+        <input type="number" id="income" placeholder="3000000" min="0" required>
+      </div>
+
+      <div class="field-group">
+        <label>Ish holati</label>
+        <select id="job">
+          <option value="stable">✅ Doimiy ish (rasmiy)</option>
+          <option value="temporary">⏳ Vaqtinchalik / norasmiy</option>
+          <option value="none">❌ Ishsiz</option>
+        </select>
+      </div>
+
+      <div class="grid-2">
+        <div class="field-group">
+          <label>Farzand soni</label>
+          <select id="children">
+            <option value="0">Yo'q</option>
+            <option value="1">1 ta</option>
+            <option value="2">2 ta</option>
+            <option value="3">3 va undan ko'p</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Nogironlik / imtiyoz</label>
+          <select id="disability">
+            <option value="none">Yo'q</option>
+            <option value="yes">Ha, bor</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Hozirgi uy holati</label>
+        <select id="housing">
+          <option value="none">Uy yo'q / ijarada</option>
+          <option value="renting">Uzoq muddatli ijara</option>
+          <option value="owned">O'z uyi bor</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit-btn">⚡ Tahlil qilish</button>
+    </form>
+
+    <div id="warning" class="warning-box">
+      ⚠️ <strong>Diqqat:</strong> Daromadingiz eng past region talabini ham qoplamaydi. Ijtimoiy yordam dasturlariga murojaat qiling.
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="right-col" id="rightCol">
+    <div class="panel" style="padding: 0; overflow: hidden;">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🏘️</div>
+        <h3>Tahlil kutilmoqda</h3>
+        <p>Chap tomondagi formani to'ldiring va "Tahlil qilish" tugmasini bosing</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const regions = [
+  {
+    name: "Premium Shahar Markazi",
+    icon: "🏙️",
+    minIncome: 5000000,
+    infrastructure: 9,
+    eco: 8,
+    capacity: 10,
+    description: "Yuqori daromadlilar uchun"
+  },
+  {
+    name: "Yangi Turar Joy Massivi",
+    icon: "🏢",
+    minIncome: 2500000,
+    infrastructure: 7,
+    eco: 7,
+    capacity: 20,
+    description: "O'rta daromad, zamonaviy infratuzilma"
+  },
+  {
+    name: "Ijtimoiy Uylar Hududi",
+    icon: "🏠",
+    minIncome: 0,
+    infrastructure: 5,
+    eco: 6,
+    capacity: 50,
+    description: "Kam ta'minlangan oilalar uchun"
+  },
+  {
+    name: "Sanoat Zonasi Yaqini",
+    icon: "🏭",
+    minIncome: 1200000,
+    infrastructure: 6,
+    eco: 4,
+    capacity: 15,
+    description: "Ishchi sinfi, zavod yaqinligi"
+  }
+];
+
+function scoreRegion(region, data) {
+  let score = 0;
+  const breakdown = [];
+
+  // 1. DAROMAD (max 30 ball)
+  if (data.income >= region.minIncome) {
+    score += 30;
+    breakdown.push({ name: "Daromad mosligi", pts: 30, max: 30, icon: "💰", color: "#10b981" });
+  } else if (region.minIncome === 0) {
+    score += 30;
+    breakdown.push({ name: "Daromad mosligi", pts: 30, max: 30, icon: "💰", color: "#10b981" });
+  } else {
+    const partial = Math.round((data.income / region.minIncome) * 30);
+    score += partial;
+    breakdown.push({ name: "Daromad mosligi", pts: partial, max: 30, icon: "💰", color: "#f59e0b" });
+  }
+
+  // 2. ISH HOLATI (max 20 ball)
+  let jobPts = 0;
+  if (data.job === "stable") jobPts = 20;
+  else if (data.job === "temporary") jobPts = 10;
+  score += jobPts;
+  breakdown.push({ name: "Ish barqarorligi", pts: jobPts, max: 20, icon: "💼", color: jobPts >= 15 ? "#10b981" : "#f59e0b" });
+
+  // 3. OILa / FARZANDLAR (max 15 ball)
+  let familyPts = 0;
+  if (data.children >= 3) { familyPts += 15; }
+  else if (data.children === 2 && region.infrastructure >= 7) { familyPts += 12; }
+  else if (data.children === 1) { familyPts += 6; }
+  if (data.family > 5) familyPts = Math.min(familyPts + 5, 15);
+  score += familyPts;
+  breakdown.push({ name: "Oila / Farzand bonusi", pts: familyPts, max: 15, icon: "👨‍👩‍👧", color: "#00d4ff" });
+
+  // 4. EKOLOGIYA + YOSH (max 10 ball)
+  let ecoPts = 0;
+  if (data.age > 55 && region.eco >= 7) ecoPts = 10;
+  else if (data.age > 40 && region.eco >= 6) ecoPts = 5;
+  score += ecoPts;
+  breakdown.push({ name: "Ekologiya (yosh hisobi)", pts: ecoPts, max: 10, icon: "🌿", color: "#10b981" });
+
+  // 5. NOGIRONLIK / IMTIYOZ (max 10 ball)
+  let disablePts = 0;
+  if (data.disability === "yes") disablePts = 10;
+  score += disablePts;
+  breakdown.push({ name: "Imtiyoz (nogironlik)", pts: disablePts, max: 10, icon: "♿", color: "#7c3aed" });
+
+  // 6. UY HOLATI (max 10 ball)
+  let housingPts = 0;
+  if (data.housing === "none") housingPts = 10;
+  else if (data.housing === "renting") housingPts = 5;
+  score += housingPts;
+  breakdown.push({ name: "Uy ehtiyoji", pts: housingPts, max: 10, icon: "🏘️", color: "#00d4ff" });
+
+  // 7. SIG'IM BONUSI (max 5 ball)
+  const capacityBonus = Math.round((region.capacity / 50) * 5);
+  score += capacityBonus;
+  breakdown.push({ name: "Hudud sig'imi", pts: capacityBonus, max: 5, icon: "📊", color: "#64748b" });
+
+  const eligible = data.income >= region.minIncome || region.minIncome === 0;
+
+  return { score, breakdown, eligible };
+}
+
+document.getElementById("form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const data = {
+    name: document.getElementById("name").value,
+    age: parseInt(document.getElementById("age").value),
+    family: parseInt(document.getElementById("family").value),
+    income: parseInt(document.getElementById("income").value),
+    job: document.getElementById("job").value,
+    children: parseInt(document.getElementById("children").value),
+    disability: document.getElementById("disability").value,
+    housing: document.getElementById("housing").value
+  };
+
+  const results = regions.map(r => ({
+    region: r,
+    ...scoreRegion(r, data)
+  })).sort((a, b) => b.score - a.score);
+
+  const best = results[0];
+  const allIneligible = results.every(r => !r.eligible);
+
+  // Warning
+  document.getElementById("warning").className = allIneligible ? "warning-box show" : "warning-box";
+
+  const rc = document.getElementById("rightCol");
+
+  rc.innerHTML = `
+    <!-- Citizen Summary -->
+    <div class="citizen-card animate-in">
+      <div class="avatar">${data.name.charAt(0).toUpperCase()}</div>
+      <div class="citizen-info">
+        <h3>${data.name}</h3>
+        <div class="citizen-meta">
+          ${data.age} yosh &nbsp;·&nbsp; ${data.family} nafar oila &nbsp;·&nbsp;
+          ${data.income.toLocaleString('uz')} so'm &nbsp;·&nbsp;
+          ${data.children > 0 ? data.children + ' farzand' : 'farzandsiz'}
+        </div>
+      </div>
+      <div class="total-score">
+        <div class="total-score-val">${best.score}</div>
+        <div class="total-score-label">Eng yuqori ball</div>
+      </div>
+    </div>
+
+    <!-- Region Cards -->
+    <div class="regions-grid">
+      ${results.map((res, i) => `
+        <div class="region-card ${i === 0 ? 'best' : res.eligible ? 'eligible' : 'ineligible'} animate-in delay-${Math.min(i+1,4)}">
+          <div class="region-header">
+            <div class="region-icon">${res.region.icon}</div>
+            <div class="region-badge ${i===0 ? 'badge-best' : res.eligible ? 'badge-ok' : 'badge-no'}">
+              ${i===0 ? '⭐ Eng mos' : res.eligible ? '✓ Mos' : '✗ Mos emas'}
+            </div>
+          </div>
+          <div class="region-name">${res.region.name}</div>
+          <div class="score-bar-wrap">
+            <div class="score-label">
+              <span>Umumiy ball</span>
+              <span class="score-val">${res.score} / 100</span>
+            </div>
+            <div class="score-bar">
+              <div class="score-fill" id="fill-${i}" style="background: ${i===0 ? 'linear-gradient(90deg,#00d4ff,#7c3aed)' : '#10b981'}"></div>
+            </div>
+          </div>
+          <div class="region-stats">
+            <div class="stat">
+              <div class="stat-val">${res.region.infrastructure}/10</div>
+              <div class="stat-label">Infra</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">${res.region.eco}/10</div>
+              <div class="stat-label">Ekologiya</div>
+            </div>
+            <div class="stat">
+              <div class="stat-val">${res.region.capacity}</div>
+              <div class="stat-label">Bo'sh joy</div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+
+    <!-- Factor Breakdown for Best Region -->
+    <div class="factors-panel animate-in delay-3">
+      <div class="panel-title">Omillar Tahlili — ${best.region.name}</div>
+      <div class="factors-list">
+        ${best.breakdown.map((f, fi) => `
+          <div class="factor-row">
+            <div class="factor-icon" style="background: ${f.color}18;">${f.icon}</div>
+            <div class="factor-info">
+              <div class="factor-name">
+                <span>${f.name}</span>
+                <span class="factor-points" style="color: ${f.color}">${f.pts} / ${f.max}</span>
+              </div>
+              <div class="factor-bar">
+                <div class="factor-fill" id="ffill-${fi}" style="background: ${f.color};"></div>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+
+  // Animate bars after render
+  setTimeout(() => {
+    results.forEach((res, i) => {
+      const el = document.getElementById(`fill-${i}`);
+      if (el) el.style.width = res.score + '%';
+    });
+    best.breakdown.forEach((f, fi) => {
+      const el = document.getElementById(`ffill-${fi}`);
+      if (el) el.style.width = ((f.pts / f.max) * 100) + '%';
+    });
+  }, 50);
+});
+</script>
+</body>
+</html>
